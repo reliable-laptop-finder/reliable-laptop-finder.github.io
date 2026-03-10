@@ -1037,7 +1037,7 @@ function renderSummary() {
 function autoResizeTextarea() {
   const ta = document.getElementById("promptOutput");
   ta.style.height = "auto";
-  ta.style.height = ta.scrollHeight + "px";
+  setTimeout(() => { ta.style.height = ta.scrollHeight + "px"; }, 0);
 }
 
 function renderAILinks() {
