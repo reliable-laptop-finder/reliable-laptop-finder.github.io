@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laptop Reliability &amp; Build Quality — AI Prompt Generator</title>
+  <meta name="description" content="Find laptops without overheating, throttling, poor build quality, and battery issues. Generate an AI research prompt based on real Reddit reviews and user reports.">
+  <meta name="robots" content="index, follow">
+
+  <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="canonical" href="https://reliable-laptop-finder.github.io/">
+
+  <style>
+    /* ── DESIGN TOKENS ─────────────────────────────────────────── */
+    :root {
+      --bg: #ffffff;
+      --surface: #f5f5f5;
+      --border: #e0e0e0;
+      --text-primary: #111111;
+      --text-secondary: #666666;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --accent-text: #ffffff;
+      --radius: 8px;
+      --font: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    [data-theme="dark"] {
+      --bg: #0f0f0f;
+      --surface: #1a1a1a;
+      --border: #2a2a2a;
+      --text-primary: #f0f0f0;
+      --text-secondary: #999999;
+      --accent: #3b82f6;
+      --accent-hover: #2563eb;
+      --accent-text: #ffffff;
+    }
+
+    /* ── RESET & BASE ──────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+    body {
+      font-family: var(--font);
+      font-size: 1rem;
+      line-height: 1.6;
+      background: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    /* ── PROGRESS BAR ──────────────────────────────────────────── */
+    .progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+      z-index: 100;
+    }
+
+    /* ── THEME TOGGLE ──────────────────────────────────────────── */
+    .theme-toggle {
+      position: fixed;
+      top: 16px; right: 16px;
+      z-index: 200;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      border-radius: var(--radius);
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      font-family: var(--font);
+      cursor: pointer;
+      transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+    .theme-toggle:hover { background: var(--border); }
+
+    /* ── LAYOUT ────────────────────────────────────────────────── */
+    .screen {
+      display: none;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 56px 24px 64px;
+    }
+    .screen.active { display: block; }
+
+    /* ── HEADER ────────────────────────────────────────────────── */
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      line-height: 1.3;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+    .subtitle {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+    }
+    .step-indicator {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+    .step-hint {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+    }
+
+    /* ── CHIPS ─────────────────────────────────────────────────── */
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .chip {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      border-radius: var(--radius);
+      padding: 6px 14px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      font-family: var(--font);
+      cursor: pointer;
+      transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      line-height: 1.4;
+    }
+    .chip:hover { border-color: var(--accent); }
+    .chip.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--accent-text);
+    }
+    .chip.recommended {
+      border-color: var(--accent);
+    }
+
+    /* ── OTHER INPUT ───────────────────────────────────────────── */
+    .other-input-row {
+      display: none;
+      gap: 8px;
+      margin-top: 12px;
+      align-items: center;
+    }
+    .other-input-row.visible { display: flex; }
+    .other-input-row input {
+      flex: 1;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      border-radius: var(--radius);
+      padding: 8px 12px;
+      font-size: 0.875rem;
+      font-family: var(--font);
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+    .other-input-row input:focus { border-color: var(--accent); }
+    .other-input-row input::placeholder { color: var(--text-secondary); }
+
+    /* single-field other (country/lang) */
+    .other-single-input {
+      display: none;
+      margin-top: 12px;
+    }
+    .other-single-input.visible { display: block; }
+    .other-single-input input {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      border-radius: var(--radius);
+      padding: 8px 12px;
+      font-size: 0.875rem;
+      font-family: var(--font);
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+    .other-single-input input:focus { border-color: var(--accent); }
+    .other-single-input input::placeholder { color: var(--text-secondary); }
+
+    /* ── TAGS ──────────────────────────────────────────────────── */
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 4px 10px;
+      font-size: 0.8rem;
+      color: var(--text-primary);
+    }
+    .tag-remove {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-secondary);
+      font-size: 1rem;
+      line-height: 1;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      transition: color 0.2s ease;
+      font-family: var(--font);
+    }
+    .tag-remove:hover { color: var(--text-primary); }
+
+    /* ── BUTTONS ───────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius);
+      padding: 9px 20px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      font-family: var(--font);
+      cursor: pointer;
+      transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      border: 1px solid transparent;
+      line-height: 1.4;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: var(--accent-text);
+      border-color: var(--accent);
+    }
+    .btn-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--text-primary);
+      border-color: var(--border);
+    }
+    .btn-secondary:hover { border-color: var(--accent); }
+    .btn-add {
+      background: var(--accent);
+      color: var(--accent-text);
+      border-color: var(--accent);
+      padding: 8px 16px;
+      white-space: nowrap;
+    }
+    .btn-add:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+
+    /* ── BUTTON ROW ────────────────────────────────────────────── */
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .btn-row .spacer { flex: 1; }
+
+    /* ── DIVIDER ───────────────────────────────────────────────── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 32px 0;
+    }
+
+    /* ── SUMMARY ───────────────────────────────────────────────── */
+    .summary {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 4px 16px;
+    }
+    .summary-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .summary-value {
+      font-size: 0.875rem;
+      color: var(--text-primary);
+    }
+
+    /* ── TEXTAREA ──────────────────────────────────────────────── */
+    .prompt-textarea {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      border-radius: var(--radius);
+      padding: 16px;
+      font-size: 0.9rem;
+      font-family: monospace;
+      line-height: 1.7;
+      resize: none;
+      outline: none;
+      overflow: hidden;
+      min-height: 120px;
+    }
+
+    /* ── COPY + SHARE ROW ──────────────────────────────────────── */
+    .action-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    /* ── AI ASSISTANTS ─────────────────────────────────────────── */
+    .ai-section {
+      margin-top: 40px;
+    }
+    .ai-section-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 14px;
+    }
+    .ai-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .ai-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-primary);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      padding: 8px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+    }
+    .ai-link:hover { border-color: var(--accent); }
+    .ai-link img { width: 24px; height: 24px; object-fit: contain; }
+
+    /* ── LINKS SECTION ─────────────────────────────────────────── */
+    .links-section { margin-top: 32px; }
+    .links-section a {
+      display: block;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.875rem;
+      margin-bottom: 8px;
+      transition: color 0.2s ease;
+    }
+    .links-section a:hover { color: var(--accent-hover); text-decoration: underline; }
+
+    /* ── FOOTER ────────────────────────────────────────────────── */
+    .footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+    .footer a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.8rem;
+      transition: color 0.2s ease;
+    }
+    .footer a:hover { color: var(--text-primary); }
+
+    /* ── RESPONSIVE ────────────────────────────────────────────── */
+    @media (max-width: 480px) {
+      .screen { padding: 48px 16px 48px; }
+      h1 { font-size: 1.4rem; }
+      .btn-row { gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">☀️ Light</button>
+
+<!-- ══ SCREEN 1 — LAPTOP ══════════════════════════════════════════ -->
+<div class="screen active" id="screen1">
+  <h1>Find a Reliable Laptop Without Overheating, Throttling &amp; Build Issues</h1>
+  <p class="subtitle">Generate a research prompt for AI based on real Reddit reviews and user reports</p>
+  <div class="step-indicator">Step 1 of 4 · Laptop</div>
+  <div class="step-hint">Select one to analyze or multiple to compare</div>
+
+  <div class="chips" id="laptopChips"></div>
+
+  <div class="other-input-row" id="laptopOtherRow">
+    <input type="text" id="laptopOtherInput" list="laptopAutocomplete" placeholder="e.g. Dell XPS 13 Plus">
+    <datalist id="laptopAutocomplete"></datalist>
+    <button class="btn btn-add" id="laptopAddBtn">Add</button>
+  </div>
+  <div class="tags" id="laptopTags"></div>
+
+  <div class="btn-row">
+    <button class="btn btn-secondary" id="skipToScreen2">Skip</button>
+    <div class="spacer"></div>
+    <button class="btn btn-primary" id="nextToScreen2">Next →</button>
+  </div>
+</div>
+
+<!-- ══ SCREEN 2 — COUNTRY ═════════════════════════════════════════ -->
+<div class="screen" id="screen2">
+  <h1>Where are you buying?</h1>
+  <p class="subtitle">Helps tailor the prompt for regional availability and warranty differences</p>
+  <div class="step-indicator">Step 2 of 4 · Country</div>
+
+  <div class="chips" id="countryChips"></div>
+  <div class="other-single-input" id="countryOtherInput">
+    <input type="text" id="countryOtherField" list="countryAutocomplete" placeholder="Enter your country">
+    <datalist id="countryAutocomplete"></datalist>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-secondary" id="backToScreen1">← Back</button>
+    <button class="btn btn-secondary" id="skipToScreen3">Skip</button>
+    <div class="spacer"></div>
+    <button class="btn btn-primary" id="nextToScreen3">Next →</button>
+  </div>
+</div>
+
+<!-- ══ SCREEN 3 — LANGUAGE ════════════════════════════════════════ -->
+<div class="screen" id="screen3">
+  <h1>What language should the response be in?</h1>
+  <p class="subtitle">The generated prompt will instruct the AI to respond in your chosen language</p>
+  <div class="step-indicator">Step 3 of 4 · Language</div>
+
+  <div class="chips" id="langChips"></div>
+  <div class="other-single-input" id="langOtherInput">
+    <input type="text" id="langOtherField" list="langAutocomplete" placeholder="Enter a language">
+    <datalist id="langAutocomplete"></datalist>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-secondary" id="backToScreen2">← Back</button>
+    <button class="btn btn-secondary" id="skipToScreen4">Skip</button>
+    <div class="spacer"></div>
+    <button class="btn btn-primary" id="nextToScreen4">Next →</button>
+  </div>
+</div>
+
+<!-- ══ SCREEN 4 — RESULT ══════════════════════════════════════════ -->
+<div class="screen" id="screen4">
+  <h1>Your Prompt Is Ready</h1>
+  <p class="subtitle">Copy it and paste into any AI assistant below</p>
+  <div class="step-indicator">Step 4 of 4 · Your Prompt</div>
+
+  <div class="summary" id="resultSummary"></div>
+
+  <textarea class="prompt-textarea" id="promptOutput" readonly></textarea>
+
+  <div class="action-row">
+    <button class="btn btn-primary" id="copyBtn">Copy Prompt</button>
+    <button class="btn btn-secondary" id="shareBtn">Share</button>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-secondary" id="backToScreen3">← Back</button>
+    <div class="spacer"></div>
+    <button class="btn btn-secondary" id="startOver">Start Over</button>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="ai-section">
+    <div class="ai-section-label">Open in AI Assistant</div>
+    <div class="ai-links" id="aiLinks"></div>
+  </div>
+
+  <div class="links-section" id="placeholderLinks"></div>
+
+  <div class="footer">
+    <a id="githubLink" href="#" target="_blank" rel="noopener">View on GitHub</a>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════════
+// CONFIG — EDIT HERE
+// ══════════════════════════════════════════════════════════════════
+const CONFIG = {
+  laptops: {
+    chips: [
+      "MacBook Air M3",
+      "MacBook Air M2",
+      'MacBook Pro 14" M4',
+      'MacBook Pro 16" M4',
+      "Dell XPS 13",
+      "Dell XPS 15",
+      "Lenovo ThinkPad X1 Carbon",
+      "Lenovo ThinkPad T14s",
+      "Lenovo IdeaPad Slim 5",
+      "ASUS ZenBook 14",
+      "ASUS ZenBook Pro 15",
+      "ASUS ROG Zephyrus G14",
+      "Acer Swift 14",
+      "HP Spectre x360 14",
+      "HP Envy x360 15",
+      "Microsoft Surface Laptop 5",
+      "LG Gram 14",
+      "LG Gram 16",
+      "Framework Laptop 13",
+      "Samsung Galaxy Book3 Pro",
+      "Razer Blade 15",
+      "MSI Prestige 14"
+    ],
+    autocomplete: [
+      "MacBook Air M3",
+      "MacBook Air M2",
+      "MacBook Air M1",
+      'MacBook Pro 14" M4',
+      'MacBook Pro 16" M4',
+      'MacBook Pro 14" M3',
+      'MacBook Pro 16" M3',
+      'MacBook Pro 14" M3 Pro',
+      'MacBook Pro 16" M3 Pro',
+      "Dell XPS 13",
+      "Dell XPS 13 Plus",
+      "Dell XPS 15",
+      "Dell XPS 16",
+      "Dell Inspiron 14",
+      "Dell Inspiron 15",
+      "Lenovo ThinkPad X1 Carbon",
+      "Lenovo ThinkPad X1 Yoga",
+      "Lenovo ThinkPad T14s",
+      "Lenovo ThinkPad T16",
+      "Lenovo ThinkPad E14",
+      "Lenovo IdeaPad Slim 5",
+      "Lenovo IdeaPad Pro 5",
+      "Lenovo Yoga 7i",
+      "Lenovo Yoga 9i",
+      "ASUS ZenBook 14",
+      "ASUS ZenBook 14 OLED",
+      "ASUS ZenBook Pro 15",
+      "ASUS ZenBook Pro Duo",
+      "ASUS ROG Zephyrus G14",
+      "ASUS ROG Zephyrus G16",
+      "ASUS VivoBook 15",
+      "Acer Swift 14",
+      "Acer Swift 3",
+      "Acer Aspire 5",
+      "Acer Predator Helios 16",
+      "HP Spectre x360 14",
+      "HP Spectre x360 16",
+      "HP Envy x360 13",
+      "HP Envy x360 15",
+      "HP EliteBook 840",
+      "Microsoft Surface Laptop 5",
+      "Microsoft Surface Laptop 6",
+      "Microsoft Surface Pro 9",
+      "Microsoft Surface Pro 10",
+      "LG Gram 14",
+      "LG Gram 16",
+      "LG Gram Pro 16",
+      "Framework Laptop 13",
+      "Framework Laptop 16",
+      "Samsung Galaxy Book3 Pro",
+      "Samsung Galaxy Book3 Ultra",
+      "Samsung Galaxy Book4 Pro",
+      "Razer Blade 14",
+      "Razer Blade 15",
+      "Razer Blade 16",
+      "MSI Prestige 14",
+      "MSI Stealth 15",
+      "MSI Creator Z16",
+      "Huawei MateBook X Pro",
+      "Huawei MateBook D16",
+      "Honor MagicBook Pro 16",
+      "Xiaomi Book Pro 14",
+      "Toshiba Dynabook Portege"
+    ]
+  },
+  countries: {
+    chips: [
+      "USA","UK","Germany","France","Poland","Ukraine",
+      "India","Japan","Canada","Australia","Brazil"
+    ],
+    autocomplete: [
+      "USA","UK","Germany","France","Poland","Ukraine","India","Japan",
+      "Canada","Australia","Brazil","Austria","Belgium","Czech Republic",
+      "Denmark","Finland","Greece","Hungary","Ireland","Italy","Netherlands",
+      "Norway","Portugal","Romania","Slovakia","Spain","Sweden","Switzerland",
+      "Turkey","Argentina","Chile","Colombia","Mexico","China","Hong Kong",
+      "Indonesia","Malaysia","Pakistan","Philippines","Singapore","South Korea",
+      "Taiwan","Thailand","Vietnam","Egypt","Israel","Nigeria","Saudi Arabia",
+      "South Africa","UAE","New Zealand"
+    ]
+  },
+  languages: {
+    chips: [
+      { label: "English",    code: "en" },
+      { label: "Ukrainian",  code: "uk" },
+      { label: "German",     code: "de" },
+      { label: "French",     code: "fr" },
+      { label: "Spanish",    code: "es" },
+      { label: "Polish",     code: "pl" },
+      { label: "Portuguese", code: "pt" },
+      { label: "Italian",    code: "it" },
+      { label: "Japanese",   code: "ja" },
+      { label: "Korean",     code: "ko" },
+      { label: "Arabic",     code: "ar" },
+      { label: "Turkish",    code: "tr" },
+      { label: "Hindi",      code: "hi" }
+    ],
+    autocomplete: [
+      { label: "English",    code: "en" }, { label: "Ukrainian",  code: "uk" },
+      { label: "German",     code: "de" }, { label: "French",     code: "fr" },
+      { label: "Spanish",    code: "es" }, { label: "Polish",     code: "pl" },
+      { label: "Portuguese", code: "pt" }, { label: "Italian",    code: "it" },
+      { label: "Japanese",   code: "ja" }, { label: "Korean",     code: "ko" },
+      { label: "Arabic",     code: "ar" }, { label: "Turkish",    code: "tr" },
+      { label: "Hindi",      code: "hi" }, { label: "Bengali",    code: "bn" },
+      { label: "Bulgarian",  code: "bg" }, { label: "Croatian",   code: "hr" },
+      { label: "Czech",      code: "cs" }, { label: "Danish",     code: "da" },
+      { label: "Dutch",      code: "nl" }, { label: "Finnish",    code: "fi" },
+      { label: "Greek",      code: "el" }, { label: "Hebrew",     code: "he" },
+      { label: "Hungarian",  code: "hu" }, { label: "Indonesian", code: "id" },
+      { label: "Malay",      code: "ms" }, { label: "Norwegian",  code: "no" },
+      { label: "Persian",    code: "fa" }, { label: "Romanian",   code: "ro" },
+      { label: "Serbian",    code: "sr" }, { label: "Slovak",     code: "sk" },
+      { label: "Slovenian",  code: "sl" }, { label: "Swedish",    code: "sv" },
+      { label: "Thai",       code: "th" }, { label: "Vietnamese", code: "vi" }
+    ]
+  },
+  ai_assistants: [
+    { name: "Gemini",     url: "https://gemini.google.com",      icon: "https://reliable-laptop-finder.github.io/assets/images/google-gemini-color-icon.svg" },
+    { name: "ChatGPT",    url: "https://chatgpt.com",            icon: "https://reliable-laptop-finder.github.io/assets/images/openai-chatgpt-color-icon.svg" },
+    { name: "Claude",     url: "https://claude.ai",              icon: "https://reliable-laptop-finder.github.io/assets/images/anthropic-claude-color-icon.svg" },
+    { name: "Perplexity", url: "https://www.perplexity.ai",      icon: "https://reliable-laptop-finder.github.io/assets/images/perplexity-color-icon.svg" }
+  ],
+  placeholder_links: [
+    // { text: "Discussion: How this prompt generator works (coming soon)", url: "#" },
+    // { text: "Post: Finding a reliable laptop without overheating issues (coming soon)", url: "#" }
+  ],
+  github_url: "https://github.com/"
+};
+
+// ══════════════════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════════════════
+const state = {
+  laptops: [],   // array of strings
+  country: "",
+  lang: ""
+};
+
+// ══════════════════════════════════════════════════════════════════
+// THEME
+// ══════════════════════════════════════════════════════════════════
+const themeToggle = document.getElementById("themeToggle");
+function applyTheme(dark) {
+  document.documentElement.setAttribute("data-theme", dark ? "dark" : "");
+  themeToggle.textContent = dark ? "🌙 Dark" : "☀️ Light";
+}
+let isDark = localStorage.getItem("theme") === "dark";
+applyTheme(isDark);
+themeToggle.addEventListener("click", () => {
+  isDark = !isDark;
+  localStorage.setItem("theme", isDark ? "dark" : "light");
+  applyTheme(isDark);
+});
+
+// ══════════════════════════════════════════════════════════════════
+// PROGRESS BAR
+// ══════════════════════════════════════════════════════════════════
+const progressBar = document.getElementById("progressBar");
+function setProgress(step) {
+  progressBar.style.width = (step * 25) + "%";
+}
+
+// ══════════════════════════════════════════════════════════════════
+// SCREEN NAVIGATION
+// ══════════════════════════════════════════════════════════════════
+function showScreen(n) {
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  document.getElementById("screen" + n).classList.add("active");
+  setProgress(n);
+  window.scrollTo(0, 0);
+}
+
+// ══════════════════════════════════════════════════════════════════
+// QUERY PARAMS
+// ══════════════════════════════════════════════════════════════════
+function getParams() {
+  return new URLSearchParams(window.location.search);
+}
+function setParam(key, value) {
+  const p = getParams();
+  if (value) p.set(key, value);
+  else p.delete(key);
+  const qs = p.toString();
+  history.replaceState(null, "", qs ? "?" + qs : window.location.pathname);
+}
+function deleteParam(key) {
+  const p = getParams();
+  p.delete(key);
+  const qs = p.toString();
+  history.replaceState(null, "", qs ? "?" + qs : window.location.pathname);
+}
+function clearAllParams() {
+  history.replaceState(null, "", window.location.pathname);
+}
+
+// ══════════════════════════════════════════════════════════════════
+// SCREEN 1 — LAPTOP
+// ══════════════════════════════════════════════════════════════════
+const laptopChipsEl   = document.getElementById("laptopChips");
+const laptopOtherRow  = document.getElementById("laptopOtherRow");
+const laptopOtherInput = document.getElementById("laptopOtherInput");
+const laptopAutocomplete = document.getElementById("laptopAutocomplete");
+const laptopAddBtn    = document.getElementById("laptopAddBtn");
+const laptopTagsEl    = document.getElementById("laptopTags");
+
+let selectedLaptopChips = new Set(); // chip labels
+let otherLaptopTags = [];            // custom entries
+
+// populate datalist
+CONFIG.laptops.autocomplete.forEach(m => {
+  const opt = document.createElement("option");
+  opt.value = m;
+  laptopAutocomplete.appendChild(opt);
+});
+
+// build chips
+CONFIG.laptops.chips.forEach(model => {
+  const btn = document.createElement("button");
+  btn.className = "chip";
+  btn.dataset.value = model;
+  btn.textContent = model;
+  btn.addEventListener("click", () => {
+    if (btn.classList.contains("active")) {
+      btn.classList.remove("active");
+      selectedLaptopChips.delete(model);
+    } else {
+      btn.classList.add("active");
+      selectedLaptopChips.add(model);
+    }
+  });
+  laptopChipsEl.appendChild(btn);
+});
+
+// Other chip
+const laptopOtherChip = document.createElement("button");
+laptopOtherChip.className = "chip";
+laptopOtherChip.textContent = "Other";
+laptopOtherChip.addEventListener("click", () => {
+  const open = laptopOtherRow.classList.contains("visible");
+  if (open) {
+    laptopOtherRow.classList.remove("visible");
+    laptopOtherChip.classList.remove("active");
+  } else {
+    laptopOtherRow.classList.add("visible");
+    laptopOtherChip.classList.add("active");
+    laptopOtherInput.focus();
+  }
+});
+laptopChipsEl.appendChild(laptopOtherChip);
+
+function addLaptopTag(val) {
+  val = val.trim();
+  if (!val) return;
+  const allSelected = [...selectedLaptopChips, ...otherLaptopTags];
+  if (allSelected.map(s => s.toLowerCase()).includes(val.toLowerCase())) return;
+  otherLaptopTags.push(val);
+  renderLaptopTags();
+  laptopOtherInput.value = "";
+  laptopOtherInput.focus();
+}
+
+function renderLaptopTags() {
+  laptopTagsEl.innerHTML = "";
+  otherLaptopTags.forEach((tag, i) => {
+    const el = document.createElement("span");
+    el.className = "tag";
+    el.innerHTML = `${tag} <button class="tag-remove" aria-label="Remove">&times;</button>`;
+    el.querySelector(".tag-remove").addEventListener("click", () => {
+      otherLaptopTags.splice(i, 1);
+      renderLaptopTags();
+    });
+    laptopTagsEl.appendChild(el);
+  });
+}
+
+laptopAddBtn.addEventListener("click", () => addLaptopTag(laptopOtherInput.value));
+laptopOtherInput.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); addLaptopTag(laptopOtherInput.value); } });
+
+function getLaptopSelection() {
+  return [...selectedLaptopChips, ...otherLaptopTags];
+}
+
+function saveLaptopsAndAdvance() {
+  const sel = getLaptopSelection();
+  if (sel.length > 0) {
+    setParam("laptop", sel.join(","));
+  } else {
+    deleteParam("laptop");
+  }
+  state.laptops = sel;
+  showScreen(2);
+}
+
+document.getElementById("nextToScreen2").addEventListener("click", saveLaptopsAndAdvance);
+document.getElementById("skipToScreen2").addEventListener("click", () => {
+  deleteParam("laptop");
+  state.laptops = [];
+  showScreen(2);
+});
+
+// ══════════════════════════════════════════════════════════════════
+// SCREEN 2 — COUNTRY
+// ══════════════════════════════════════════════════════════════════
+const countryChipsEl    = document.getElementById("countryChips");
+const countryOtherInput = document.getElementById("countryOtherInput");
+const countryOtherField = document.getElementById("countryOtherField");
+const countryAutocomplete = document.getElementById("countryAutocomplete");
+
+let selectedCountry = "";
+let countryOtherActive = false;
+
+CONFIG.countries.autocomplete.forEach(c => {
+  const opt = document.createElement("option");
+  opt.value = c;
+  countryAutocomplete.appendChild(opt);
+});
+
+function buildCountryChips() {
+  countryChipsEl.innerHTML = "";
+  CONFIG.countries.chips.forEach(country => {
+    const btn = document.createElement("button");
+    btn.className = "chip";
+    btn.dataset.value = country;
+    btn.textContent = country;
+    btn.addEventListener("click", () => {
+      countryChipsEl.querySelectorAll(".chip").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      selectedCountry = country;
+      countryOtherActive = false;
+      countryOtherInput.classList.remove("visible");
+      countryOtherField.value = "";
+    });
+    countryChipsEl.appendChild(btn);
+  });
+
+  const otherBtn = document.createElement("button");
+  otherBtn.className = "chip";
+  otherBtn.id = "countryOtherChip";
+  otherBtn.textContent = "Other";
+  otherBtn.addEventListener("click", () => {
+    countryChipsEl.querySelectorAll(".chip").forEach(b => b.classList.remove("active"));
+    otherBtn.classList.add("active");
+    selectedCountry = "";
+    countryOtherActive = true;
+    countryOtherInput.classList.add("visible");
+    countryOtherField.focus();
+  });
+  countryChipsEl.appendChild(otherBtn);
+}
+buildCountryChips();
+
+function getCountryValue() {
+  if (countryOtherActive && countryOtherField.value.trim()) return countryOtherField.value.trim();
+  return selectedCountry;
+}
+
+function saveCountryAndAdvance() {
+  const val = getCountryValue();
+  if (val) setParam("country", val);
+  else deleteParam("country");
+  state.country = val;
+  showScreen(3);
+}
+
+document.getElementById("nextToScreen3").addEventListener("click", saveCountryAndAdvance);
+document.getElementById("skipToScreen3").addEventListener("click", () => {
+  deleteParam("country");
+  state.country = "";
+  showScreen(3);
+});
+document.getElementById("backToScreen1").addEventListener("click", () => showScreen(1));
+
+// ══════════════════════════════════════════════════════════════════
+// SCREEN 3 — LANGUAGE
+// ══════════════════════════════════════════════════════════════════
+const langChipsEl    = document.getElementById("langChips");
+const langOtherInput = document.getElementById("langOtherInput");
+const langOtherField = document.getElementById("langOtherField");
+const langAutocomplete = document.getElementById("langAutocomplete");
+
+let selectedLang = "";
+let langOtherActive = false;
+
+CONFIG.languages.autocomplete.forEach(l => {
+  const opt = document.createElement("option");
+  opt.value = l.label;
+  langAutocomplete.appendChild(opt);
+});
+
+const browserLangCode = (navigator.language || "").split("-")[0].toLowerCase();
+
+function buildLangChips() {
+  langChipsEl.innerHTML = "";
+  CONFIG.languages.chips.forEach(lang => {
+    const btn = document.createElement("button");
+    btn.className = "chip";
+    btn.dataset.code = lang.code;
+    const isBrowser = lang.code === browserLangCode;
+    btn.textContent = isBrowser ? `${lang.label} (your browser language)` : lang.label;
+    if (isBrowser) btn.classList.add("recommended");
+    btn.addEventListener("click", () => {
+      langChipsEl.querySelectorAll(".chip").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      selectedLang = lang.label;
+      langOtherActive = false;
+      langOtherInput.classList.remove("visible");
+      langOtherField.value = "";
+    });
+    langChipsEl.appendChild(btn);
+  });
+
+  const otherBtn = document.createElement("button");
+  otherBtn.className = "chip";
+  otherBtn.id = "langOtherChip";
+  otherBtn.textContent = "Other";
+  otherBtn.addEventListener("click", () => {
+    langChipsEl.querySelectorAll(".chip").forEach(b => b.classList.remove("active"));
+    otherBtn.classList.add("active");
+    selectedLang = "";
+    langOtherActive = true;
+    langOtherInput.classList.add("visible");
+    langOtherField.focus();
+  });
+  langChipsEl.appendChild(otherBtn);
+}
+buildLangChips();
+
+function getLangValue() {
+  if (langOtherActive && langOtherField.value.trim()) return langOtherField.value.trim();
+  return selectedLang;
+}
+
+function saveLangAndAdvance() {
+  const val = getLangValue();
+  if (val) setParam("lang", val);
+  else deleteParam("lang");
+  state.lang = val;
+  buildScreen4();
+  showScreen(4);
+}
+
+document.getElementById("nextToScreen4").addEventListener("click", saveLangAndAdvance);
+document.getElementById("skipToScreen4").addEventListener("click", () => {
+  deleteParam("lang");
+  state.lang = "";
+  buildScreen4();
+  showScreen(4);
+});
+document.getElementById("backToScreen2").addEventListener("click", () => showScreen(2));
+
+// ══════════════════════════════════════════════════════════════════
+// SCREEN 4 — RESULT
+// ══════════════════════════════════════════════════════════════════
+function buildScreen4() {
+  renderSummary();
+  renderPrompt();
+  renderAILinks();
+  renderPlaceholderLinks();
+  document.getElementById("githubLink").href = CONFIG.github_url;
+  autoResizeTextarea();
+}
+
+function renderSummary() {
+  const el = document.getElementById("resultSummary");
+  const laptops = state.laptops;
+  const laptopLabel = laptops.length > 1 ? "Laptops" : "Laptop";
+  el.innerHTML = `
+    <span class="summary-label">${laptopLabel}</span>
+    <span class="summary-value">${laptops.length ? laptops.join(", ") : "Not specified"}</span>
+    <span class="summary-label">Country</span>
+    <span class="summary-value">${state.country || "Not specified"}</span>
+    <span class="summary-label">Language</span>
+    <span class="summary-value">${state.lang || "Not specified"}</span>
+  `;
+}
+
+function autoResizeTextarea() {
+  const ta = document.getElementById("promptOutput");
+  ta.style.height = "auto";
+  setTimeout(() => { ta.style.height = ta.scrollHeight + "px"; }, 0);
+}
+
+function renderAILinks() {
+  const el = document.getElementById("aiLinks");
+  el.innerHTML = "";
+  CONFIG.ai_assistants.forEach(ai => {
+    const a = document.createElement("a");
+    a.href = ai.url;
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.className = "ai-link";
+    a.innerHTML = `<img src="${ai.icon}" alt="${ai.name}" width="24" height="24"> ${ai.name}`;
+    el.appendChild(a);
+  });
+}
+
+function renderPlaceholderLinks() {
+  const el = document.getElementById("placeholderLinks");
+  el.innerHTML = "";
+  CONFIG.placeholder_links.forEach(link => {
+    const a = document.createElement("a");
+    a.href = link.url;
+    a.textContent = link.text;
+    el.appendChild(a);
+  });
+}
+
+// ── Copy & Share ────────────────────────────────────────────────
+document.getElementById("copyBtn").addEventListener("click", () => {
+  const text = document.getElementById("promptOutput").value;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById("copyBtn");
+    const orig = btn.textContent;
+    btn.textContent = "Copied!";
+    setTimeout(() => { btn.textContent = orig; }, 2000);
+  });
+});
+
+document.getElementById("shareBtn").addEventListener("click", () => {
+  const url = window.location.href;
+  const btn = document.getElementById("shareBtn");
+  if (navigator.share) {
+    navigator.share({ url });
+  } else {
+    navigator.clipboard.writeText(url).then(() => {
+      const orig = btn.textContent;
+      btn.textContent = "Link Copied!";
+      setTimeout(() => { btn.textContent = orig; }, 2000);
+    });
+  }
+});
+
+document.getElementById("backToScreen3").addEventListener("click", () => showScreen(3));
+document.getElementById("startOver").addEventListener("click", () => {
+  clearAllParams();
+  // reset state
+  state.laptops = []; state.country = ""; state.lang = "";
+  selectedLaptopChips.clear();
+  otherLaptopTags = [];
+  renderLaptopTags();
+  laptopChipsEl.querySelectorAll(".chip").forEach(b => b.classList.remove("active"));
+  laptopOtherRow.classList.remove("visible");
+  laptopOtherInput.value = "";
+  selectedCountry = ""; countryOtherActive = false;
+  countryOtherInput.classList.remove("visible");
+  countryOtherField.value = "";
+  countryChipsEl.querySelectorAll(".chip").forEach(b => b.classList.remove("active"));
+  selectedLang = ""; langOtherActive = false;
+  langOtherInput.classList.remove("visible");
+  langOtherField.value = "";
+  langChipsEl.querySelectorAll(".chip").forEach(b => b.classList.remove("active"));
+  showScreen(1);
+});
+
+// ══════════════════════════════════════════════════════════════════
+// PROMPT GENERATION
+// ══════════════════════════════════════════════════════════════════
+function renderPrompt() {
+  const ta = document.getElementById("promptOutput");
+  ta.value = generatePrompt(state.laptops, state.country, state.lang);
+  autoResizeTextarea();
+}
+
+function langLine(lang) {
+  return lang ? `Respond entirely in ${lang}. Do not use any other language in your response.` : "";
+}
+
+const ASPECTS = `Check the following aspects thoroughly for each model, drawing only on real user reports, Reddit discussions, forum threads, and public sources. Do not fabricate any information. Do not make assumptions without a source. If you cannot find reliable data on a particular point, say so explicitly rather than guessing.
+
+Thermal issues and throttling: Report on chassis and keyboard overheating under sustained load and during everyday use. Describe CPU and GPU throttling behavior after extended workloads. Assess cooling system effectiveness and fan noise levels under different workloads, including the threshold at which fans become audible. Compare advertised performance figures with real-world sustained performance reported by users.
+
+Battery and battery life: Describe battery degradation patterns after 1 to 2 years of ownership based on user reports. Compare real-world battery life against manufacturer claims. Note charging behavior over USB-C versus a proprietary charger if applicable. Report whether the laptop offers an 80% charge limit option to extend long-term battery health.
+
+Build quality and physical components: Report on hinge issues including wobble, creaking, and wear over time. Describe lid and chassis flex. Note gap consistency and general assembly quality. Assess keyboard quality including key travel, stability, and reported key failures. Assess trackpad quality including tracking accuracy, click reliability, and unintended activations.
+
+Display: Report on backlight bleed and uneven brightness. Describe PWM flickering, including the frequency and whether it is present at low brightness levels. Note glare behavior on matte and glossy panel variants. Assess color accuracy and compliance with advertised color gamut figures such as sRGB or DCI-P3. Report any dead or stuck pixel issues. For OLED panels, describe any reported degradation or burn-in over time.
+
+Wi-Fi, Bluetooth, and ports: Report on Wi-Fi or Bluetooth connection instability. Note issues with specific network adapters or their drivers. Describe USB port and hub failures. Report Thunderbolt or USB4 problems including incorrect power delivery and peripheral incompatibility. Note any reported heat buildup around port areas.
+
+Webcam: Assess image quality under various lighting conditions based on user reports. Note whether a hardware privacy shutter is present. Report any driver issues or problems with webcam recognition in video conferencing applications.
+
+RAM and SSD hardware limitations: State clearly whether RAM and storage are soldered or user-replaceable. Compare real-world SSD read and write speeds against advertised figures. Report any SSD performance degradation when storage is near capacity.
+
+Linux support: Describe compatibility of common Linux distributions with this model. List known driver issues including Wi-Fi, sleep and resume behavior, power management, and keyboard backlight control. Note whether the manufacturer provides official Linux support or certification.
+
+Repairability: Include the iFixit repairability score if available. Describe the difficulty of a DIY battery replacement. Assess the availability of original spare parts and the cost and prevalence of authorized service centers.
+
+Software and drivers: Report on system freezes, crashes, or BSODs following BIOS or driver updates. Describe sleep and wake reliability. Note instability in manufacturer utility software.`;
+
+const REGIONAL = (country) => country
+  ? `Regional context for ${country}: Describe any configuration or specification differences for this market. Report on regional warranty limitations and the availability and quality of service centers in ${country}.`
+  : "";
+
+const TIME_WARNING = `If any of the listed models has been available for less than one year, explicitly warn that long-term independent user data is limited and that findings may not yet reflect sustained real-world use.`;
+
+const ALTERNATIVES = `At the end of your response, suggest specific alternative models that are known to avoid the most serious issues identified above. Explain briefly why each alternative is a better choice in the relevant area.`;
+
+const NO_FABRICATE = `Important: Base your entire response on real user reports, Reddit threads, forum discussions, and verified public sources only. Do not invent facts. Do not speculate without citing a source. If reliable data is not available for a specific point, state that clearly.`;
+
+function generatePrompt(laptops, country, lang) {
+  const ll = langLine(lang);
+  const regional = REGIONAL(country);
+
+  // — Nothing specified (or only language) —
+  if (laptops.length === 0 && !country) {
+    const parts = [
+      "I am looking for a reliable laptop for everyday use and I need you to help me identify the best options based on real user experience, not marketing materials or spec sheets.",
+      NO_FABRICATE,
+      "Search Reddit, tech forums, and user review communities for recent discussions about laptop reliability, build quality, thermal performance, and long-term ownership experience. Focus on models that have a strong track record of reliability and few recurring hardware or software complaints.",
+      ASPECTS,
+      "Based on your research, recommend three to five laptop models that stand out positively across most of the above aspects. For each recommendation, explain which areas they excel in and note any significant weaknesses that prospective buyers should be aware of.",
+      ALTERNATIVES,
+      TIME_WARNING,
+      ll
+    ].filter(Boolean);
+    return parts.join("\n\n");
+  }
+
+  // — Only country (or country + language) —
+  if (laptops.length === 0 && country) {
+    const parts = [
+      `I am looking for a reliable laptop available in ${country} and I need you to help me identify the best options based on real user experience, not marketing materials or spec sheets.`,
+      NO_FABRICATE,
+      `Search Reddit, tech forums, and user review communities for recent discussions about laptop reliability, build quality, thermal performance, and long-term ownership experience, with attention to models and configurations available in ${country}. Consider regional firmware differences, local warranty terms, and service center availability.`,
+      ASPECTS,
+      regional,
+      "Based on your research, recommend three to five laptop models that stand out positively across most of the above aspects and are well-supported in the specified region. For each recommendation, explain which areas they excel in and note any significant weaknesses.",
+      ALTERNATIVES,
+      TIME_WARNING,
+      ll
+    ].filter(Boolean);
+    return parts.join("\n\n");
+  }
+
+  // — Single model —
+  if (laptops.length === 1) {
+    const model = laptops[0];
+    const countryContext = country ? ` for buyers in ${country}` : "";
+    const parts = [
+      `I am considering buying the ${model} and I need a thorough reliability and quality assessment based on real user experience${countryContext}.`,
+      NO_FABRICATE,
+      `Search Reddit, tech forums, YouTube comment sections, and user review communities for all available reports about the ${model}. Focus on long-term ownership experiences and recurring issues reported by actual users, not just professional reviewers.`,
+      ASPECTS,
+      regional,
+      TIME_WARNING,
+      ALTERNATIVES,
+      ll
+    ].filter(Boolean);
+    return parts.join("\n\n");
+  }
+
+  // — Multiple models (comparison) —
+  const modelList = laptops.join(", ");
+  const countryContext = country ? ` for buyers in ${country}` : "";
+  const parts = [
+    `I am comparing the following laptops and need a detailed side-by-side reliability assessment based on real user experience${countryContext}: ${modelList}.`,
+    NO_FABRICATE,
+    `Search Reddit, tech forums, YouTube comment sections, and user review communities for all available reports about each of these models. Base all comparisons on actual user reports and public discussions, not on abstract specifications or manufacturer claims.`,
+    `Structure your response by aspect, not by model. For each aspect listed below, compare all models side by side based on real user reports. This means: first cover thermal issues across all models, then battery across all models, and so on. At the end, provide a summary recommendation stating which model is the best overall choice and why, taking into account all aspects and${country ? ` availability in ${country}` : " general availability"}.`,
+    ASPECTS,
+    regional,
+    TIME_WARNING,
+    ll
+  ].filter(Boolean);
+  return parts.join("\n\n");
+}
+
+// ══════════════════════════════════════════════════════════════════
+// RESTORE STATE FROM QUERY PARAMS
+// ══════════════════════════════════════════════════════════════════
+(function restoreState() {
+  const p = getParams();
+  const laptopParam  = p.get("laptop");
+  const countryParam = p.get("country");
+  const langParam    = p.get("lang");
+
+  if (laptopParam) {
+    const vals = laptopParam.split(",").map(s => s.trim()).filter(Boolean);
+    state.laptops = vals;
+    const chipSet = new Set(CONFIG.laptops.chips);
+    vals.forEach(v => {
+      if (chipSet.has(v)) {
+        selectedLaptopChips.add(v);
+        const btn = laptopChipsEl.querySelector(`[data-value="${CSS.escape(v)}"]`);
+        if (btn) btn.classList.add("active");
+      } else {
+        otherLaptopTags.push(v);
+      }
+    });
+    if (otherLaptopTags.length > 0) {
+      laptopOtherRow.classList.add("visible");
+      laptopOtherChip.classList.add("active");
+      renderLaptopTags();
+    }
+  }
+
+  if (countryParam) {
+    state.country = countryParam;
+    const chipMatch = CONFIG.countries.chips.find(c => c.toLowerCase() === countryParam.toLowerCase());
+    if (chipMatch) {
+      selectedCountry = chipMatch;
+      const btn = countryChipsEl.querySelector(`[data-value="${CSS.escape(chipMatch)}"]`);
+      if (btn) btn.classList.add("active");
+    } else {
+      selectedCountry = "";
+      countryOtherActive = true;
+      countryOtherField.value = countryParam;
+      countryOtherInput.classList.add("visible");
+      document.getElementById("countryOtherChip") && document.getElementById("countryOtherChip").classList.add("active");
+    }
+  }
+
+  if (langParam) {
+    state.lang = langParam;
+    const chipMatch = CONFIG.languages.chips.find(l => l.label.toLowerCase() === langParam.toLowerCase());
+    if (chipMatch) {
+      selectedLang = chipMatch.label;
+      const btn = langChipsEl.querySelector(`[data-code="${chipMatch.code}"]`);
+      if (btn) btn.classList.add("active");
+    } else {
+      selectedLang = "";
+      langOtherActive = true;
+      langOtherField.value = langParam;
+      langOtherInput.classList.add("visible");
+      document.getElementById("langOtherChip") && document.getElementById("langOtherChip").classList.add("active");
+    }
+  }
+
+  // determine which screen to show
+  if (laptopParam || countryParam || langParam) {
+    if (langParam || (laptopParam && countryParam)) {
+      buildScreen4();
+      showScreen(4);
+    } else if (countryParam) {
+      showScreen(3);
+    } else if (laptopParam) {
+      showScreen(2);
+    } else {
+      showScreen(1);
+    }
+  } else {
+    showScreen(1);
+  }
+})();
+</script>
+</body>
+</html>
