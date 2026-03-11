@@ -403,6 +403,16 @@
       .btn-row { gap: 8px; }
     }
   </style>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WKMQ9ER6D1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-WKMQ9ER6D1');
+  </script>
 </head>
 <body>
 
@@ -978,6 +988,7 @@ function saveLangAndAdvance() {
   state.lang = val;
   buildScreen4();
   showScreen(4);
+  autoResizeTextarea();
 }
 
 document.getElementById("nextToScreen4").addEventListener("click", saveLangAndAdvance);
@@ -986,6 +997,7 @@ document.getElementById("skipToScreen4").addEventListener("click", () => {
   state.lang = "";
   buildScreen4();
   showScreen(4);
+  autoResizeTextarea();
 });
 document.getElementById("backToScreen2").addEventListener("click", () => showScreen(2));
 
@@ -998,7 +1010,6 @@ function buildScreen4() {
   renderAILinks();
   renderPlaceholderLinks();
   document.getElementById("githubLink").href = CONFIG.github_url;
-  autoResizeTextarea();
 }
 
 function renderSummary() {
@@ -1017,8 +1028,7 @@ function renderSummary() {
 
 function autoResizeTextarea() {
   const ta = document.getElementById("promptOutput");
-  ta.style.height = "auto";
-  setTimeout(() => { ta.style.height = ta.scrollHeight + "px"; }, 0);
+  ta.style.height = ta.scrollHeight + "px";
 }
 
 function renderAILinks() {
@@ -1099,7 +1109,6 @@ document.getElementById("startOver").addEventListener("click", () => {
 function renderPrompt() {
   const ta = document.getElementById("promptOutput");
   ta.value = generatePrompt(state.laptops, state.country, state.lang);
-  autoResizeTextarea();
 }
 
 function langLine(lang) {
@@ -1272,6 +1281,7 @@ function generatePrompt(laptops, country, lang) {
     if (langParam || (laptopParam && countryParam)) {
       buildScreen4();
       showScreen(4);
+      autoResizeTextarea();
     } else if (countryParam) {
       showScreen(3);
     } else if (laptopParam) {
